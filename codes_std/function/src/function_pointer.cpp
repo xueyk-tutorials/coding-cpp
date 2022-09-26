@@ -4,7 +4,7 @@
  * @Author: xueyuankui
  * @Date: 2022-09-26 11:02:46
  * @LastEditors: xueyuankui
- * @LastEditTime: 2022-09-26 14:42:14
+ * @LastEditTime: 2022-09-26 16:03:53
  */
 #include <iostream>
 #include <functional>
@@ -62,7 +62,25 @@ public:
         cout << "类成员函数，减法运算" << endl;
         return a-b;
     }
+
+    // 模板函数
+    // 类成员函数指针作为参数，根据对象类型以及成员函数参数自动解析_C与_T
+    template<class _C, class _T>
+    void caclculator_t(int (_C:: *fn)(_T, _T), _T a, _T b)
+    {
+        cout << "CCalculator::caclculator_t" << endl;
+        // int的typeid.name为i
+        // char的typeid.name为c
+        // float的typeid.name为f
+        cout << "typeid(_C).name():" << typeid(_C).name() << endl;
+        cout << "typeid(_T).name():" << typeid(_T).name() << endl;
+
+        auto bfn = std::bind(fn, this, std::placeholders::_1, std::placeholders::_2);
+        // // 调用
+        bfn(a, b);
+    }
 };
+
 /**
  * @description: 类普通成员函数指针作为参数
  * @return {*}
@@ -70,8 +88,15 @@ public:
  */
 void calculator(int (CCalculator:: *fun)(int,int), CCalculator &cal, int a, int b)
 {
+    // 
+    cout << "成员函数指针的使用：1）直接调用" << endl;
     (cal.*fun)(a, b);
+    // 
+    cout << "成员函数指针的使用：2）std::bind" << endl;
+    auto cal_fun = std::bind(fun, cal, std::placeholders::_1, std::placeholders::_2);
+    cal_fun(a, b);
 }
+
 ////////////////////////////////////////////////////////////////////
 /// 测试函数
 ////////////////////////////////////////////////////////////////////
@@ -176,10 +201,23 @@ void test05()
     // 调用函数指针
     (cal2.*p_add)(10, 11);
 
-    cout << "*********************** 类普通成员函数指针作为参数 ***********************" << endl;
+    cout << "*********************** 类普通成员函数指针作为普通函数的参数 ***********************" << endl;
     calculator(&CCalculator::add, cal2, 10, 11);
     calculator(&CCalculator::sub, cal2, 10, 11);
 }
+
+void test06()
+{
+    cout << "*********************** 类普通成员函数指针作为该类另一个成员函数的参数 ***********************" << endl;
+    typedef int(CCalculator:: *fp_cal)(int, int);
+    fp_cal p_add = &CCalculator::add;
+
+    CCalculator cal;
+    
+    cal.caclculator_t(&CCalculator::add, 10, 11);
+}
+
+
 int main(int argc, char *argv[])
 {
     if(argc < 2)
@@ -189,11 +227,11 @@ int main(int argc, char *argv[])
     else
     {
         std::string fun_name(argv[1]);
-        std::map<std::string, int> map_functions {{"test01", 0}, {"test02", 1}, {"test03", 2}, {"test04", 3}, {"test05", 4}};
+        std::map<std::string, int> map_functions {{"test01", 0}, {"test02", 1}, {"test03", 2}, {"test04", 3}, {"test05", 4}, {"test06", 5}};
         std::map<std::string, int>::iterator iter = map_functions.find(fun_name);
 
         // 创建函数指针vector，存放各函数的指针
-        std::vector<void(*)()> vector_functions{&test01, &test02, &test03, &test04, &test05};
+        std::vector<void(*)()> vector_functions{&test01, &test02, &test03, &test04, &test05, &test06};
         // 获取函数指针并调用函数
         vector_functions[iter->second]();
     }
