@@ -1,5 +1,13 @@
 # C++学习路线
 
+## 参考
+
+https://en.cppreference.com/w/cpp
+
+## 知识框架
+
+[C++那些事](https://github.com/Light-City/CPlusPlusThings)
+
 ## 第一阶段（基础）
 
 ### 基础知识
@@ -42,6 +50,16 @@
 ## 第二阶段
 
 ### 设计模式
+
+- 博客
+
+https://refactoring.guru/
+
+[设计模式目录：22种设计模式 (refactoringguru.cn)](https://refactoringguru.cn/design-patterns/catalog)
+
+- GitHub
+
+[design-patterns-cpp](https://github.com/JakubVojvoda/design-patterns-cpp)
 
 ### Linux
 
