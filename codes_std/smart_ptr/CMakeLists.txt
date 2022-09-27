@@ -6,5 +6,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -march=native -O3 -pthread")
 set(CMAKE_CXX_STANDARD 17) 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(unique_ptr src/unique_ptr.cpp)
-add_executable(unique_ptr_thread src/unique_ptr_thread.cpp)
+
+add_executable(unique_ptr_basic src/unique_ptr/unique_ptr_basic.cpp)
+add_executable(unique_ptr_destructor src/unique_ptr/unique_ptr_destructor.cpp)
+add_executable(unique_ptr_thread src/unique_ptr/unique_ptr_thread.cpp)

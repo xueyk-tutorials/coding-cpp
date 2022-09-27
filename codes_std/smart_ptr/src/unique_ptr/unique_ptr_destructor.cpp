@@ -50,7 +50,7 @@ void delete_foo(Foo *foo)                             // 函数，用来处理un
  */
 void test01()
 {
-    std::unique_ptr<Foo> p1(new Foo());
+    std::unique_ptr<Foo> p1(new Foo());                     // 通过new初始化unique_ptr
     p1->print();
 
     std::unique_ptr<Foo> p2 = std::make_unique<Foo>();      // C++14及以上版本才支持make_unique
@@ -62,23 +62,30 @@ void test01()
     p3->print();
 
     std::unique_ptr<Foo> p4 = std::make_unique<Foo>(std::string("alex"));
-    
 }
 
 /**
  * @description: unique_ptr析构时的处理
+ * 
+ * 创建unique_ptr对象时，可以传入一个函数，用于处理对象析构时的处理操作
+ * 智能指针析构处理方式有：
+ * 1. 通过注册一个lambda表达式，用于处理unique_ptr的回收
+ * 2. 通过std::bind绑定处理函数
+ * 3. 通过伪函数，类()重载运算符进行指针的回收处理
+ * 
  * @return {*}
  * @author: xueyuankui
  */
 void test02()
 {
     using foo_ptr = std::unique_ptr<Foo, std::function<void (Foo *)>>;
-    // 通过注册一个lambda函数，用于处理unique_ptr的回收
+    // 方式一：lambda表达式
     foo_ptr p1 = foo_ptr(new Foo(), [](Foo *foo){cout << "delete foo with lamda function" << endl; delete foo;});
     
+    // 方式二：std::bind()
     foo_ptr p2 = foo_ptr(new Foo(), std::bind(delete_foo, std::placeholders::_1));
 
-    // 通过类Destoryer的()重载运算符进行指针的回收处理
+    // 方式三：伪函数
     std::unique_ptr<Foo, Destroyer> p3(new Foo);
 }
 int main(int argc, char *argv[])

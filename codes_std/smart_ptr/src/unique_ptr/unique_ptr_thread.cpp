@@ -1,10 +1,10 @@
 /*
- * @Description: 演示如何创建线程对象的智能指针unique_ptr
+ * @Description: 演示如何创建管理线程对象的智能指针，以及注册回调函数用于线程对象析构时的处理操作
  * @Version: 1.0
  * @Author: xueyuankui
  * @Date: 2022-09-21 13:03:34
  * @LastEditors: xueyuankui
- * @LastEditTime: 2022-09-21 13:55:46
+ * @LastEditTime: 2022-09-27 16:46:02
  */
 
 #include <iostream>
