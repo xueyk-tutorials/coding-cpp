@@ -26,8 +26,15 @@ public:
     }
 };
 
+std::unique_ptr<Foo> get_foo()
+{
+    std::unique_ptr<Foo> up_foo(new Foo);
+    cout << "get_foo: up_foo=" << up_foo.get() << endl;
+    return up_foo;
+}
+
 /**
- * @description: unique_ptr构造
+ * @description: unique_ptr构造、get()成员函数
  * 
  * std::unique_ptr<T> ptr(new T())
  * std::unique_ptr<T> ptr = std::make_unique<T>()
@@ -70,17 +77,42 @@ void test01()
 
 
 /**
- * @description: unique_ptr成员函数
+ * @description: unique_ptr指向数组
  * @return {*}
  * @author: xueyuankui
  */
 void test02()
 {
+    cout << "************************* unique_ptr指向数组 *************************" << endl;
+    std::unique_ptr<int[]> up_array(new int[5]{1,2,3,4,5});
 
+    cout << "up_array=" << up_array.get() << endl;
+    cout << "sizeof(*up_array)=" << sizeof(up_array) << endl;
+    up_array[0] = 11;
+
+    for(int i=0; i< 5; ++i)
+    {
+        cout << up_array[i] << " ";
+    }
+    cout << endl;
+}
+
+/**
+ * @description: unique_ptr作为函数返回值
+ * @return {*}
+ * @author: xueyuankui
+ */
+void test03()
+{
+    cout << "************************* unique_ptr作为函数返回值 *************************" << endl;
+    std::unique_ptr<Foo> up_foo = get_foo();
+    cout << "up_foo=" << up_foo.get() << endl;
 }
 int main(int argc, char *argv[])
 {
     test01();
+    test02();
+    test03();
     // if(argc < 2)
     // {
     //     std::cout << "Help:" << std::endl;
