@@ -40,9 +40,11 @@ void test02()
 /**
  * duration字面量
  * 定义于内联命名空间 std::literals::chrono_literals
+ * (字面量：c++通过operator ""， 可以自定义字面量)
  */
 void test03()
 {
+    // 字面量h，重载函数为：constexpr std::chrono::hours std::literals::chrono_literals::operator ""h<long double __hours>()
     std::chrono::hours d_d = 24h;
     cout << "小时：" << d_d.count() << endl;
 
