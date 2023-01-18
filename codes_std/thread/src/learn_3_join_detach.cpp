@@ -10,6 +10,7 @@ using namespace std;
 
 void fun(string param)
 {   
+    cout << "创建线程：" << param << endl;
     int cnt = 5;
     for(int i=0; i<cnt; ++i)
     {
@@ -22,14 +23,13 @@ void fun(string param)
 void test01()
 {
     cout << "成员函数join()的使用" << endl;
-    thread A(fun, "func1");
-    thread B(fun, "func2");
-
-    // 主线程阻塞，等待子线程执行完毕。
-    A.join();
-    thread C(fun, "func3");
-    B.join();
-    C.join();
+    thread A(fun, "func1");    // 线程A创建后立即运行
+    thread B(fun, "func2");    // 线程A创建后立即运行
+    
+    A.join();                  // 主线程阻塞，等待子线程A执行完毕。
+    thread C(fun, "func3");    // A线程执行完毕后，继续执行主线程，创建线程C
+    B.join();                  // 阻塞主线程，等待B执行完毕
+    C.join();                  // 阻塞主线程，等待B执行完毕
 }
 
 void test02()
@@ -38,9 +38,10 @@ void test02()
     thread A(fun, "func1");
     thread B(fun, "func2");
 
-    // 主线程阻塞，等待子线程执行完毕。
+    // 不阻塞主线程，子线程A与B在后台运行
     A.detach();
     B.detach();
+    // 创建子线程C
     thread C(fun, "func3");
     C.detach();
 }
