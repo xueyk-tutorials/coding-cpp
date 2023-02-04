@@ -62,11 +62,12 @@ void test02()
 
 /**
  * 返回值测试
+ * 在c++11后，默认对函数内的局部变量进行移动，而非拷贝。
  */
 Student createStudent()
 {
     Student stu;
-    cout << "返回拷贝." << "stu地址为：" << (int *)(&stu) << endl;
+    cout << "移动变量." << "stu地址为：" << (int *)(&stu) << endl;
     return stu;
 }
 
