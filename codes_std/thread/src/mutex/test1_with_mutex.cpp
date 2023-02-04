@@ -8,13 +8,14 @@
  
 int counter = 0;
 std::mutex mtx;
+
 void increase(int time){
 	for(int i=0;i<time;i++){
-	mtx.lock();
-	//当前线程休眠1ms
-	std::this_thread::sleep_for(std::chrono::milliseconds(1));
-	counter++;
-	mtx.unlock(); //利用锁来保护共享变量
+		mtx.lock();
+		//当前线程休眠1ms
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		counter++;
+		mtx.unlock(); //利用锁来保护共享变量
 	}
 }
  
