@@ -1,3 +1,10 @@
 .vscode/
 build/
 install/
+
+*.o
+# gcc coverage
+html*/
+*.info
+*.gcda
+*.gcno

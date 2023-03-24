@@ -1,0 +1,6 @@
+
+env = Environment(CCFLAGS=['-g', '-O0', '-Wall'])
+env.Append(CXXFLAGS = ['-fprofile-arcs', '-ftest-coverage'], 
+           LIBS = ['gcov'])
+
+env.Program('test.c')
