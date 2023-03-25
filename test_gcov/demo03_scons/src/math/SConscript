@@ -1,0 +1,18 @@
+import os
+Import('env')
+
+print(">>> math")
+
+cwd = os.getcwd()
+src = Glob("*.c")
+inc = [cwd]
+
+# # 生成动态链接库
+# env.SharedLibrary(target=os.path.join(env['build_dir'], 'math'),
+#                   source=src,
+#                   CPPPATH=inc,
+#                   CCFLAGS=env['ccflags'])
+
+env['srcs'].append(src)
+
+

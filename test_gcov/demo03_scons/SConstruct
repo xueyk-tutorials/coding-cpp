@@ -1,6 +1,36 @@
+import os
 
-env = Environment(CCFLAGS=['-g', '-O0', '-Wall'])
-env.Append(CXXFLAGS = ['-fprofile-arcs', '-ftest-coverage'], 
-           LIBS = ['gcov'])
+cwd = os.getcwd()
+build_dir = os.path.join(cwd, 'build')
 
-env.Program('test.c')
+
+libs = ['gcov']
+ccflags = ['-g', '-O0', '-Wall', '-fprofile-arcs', '-ftest-coverage']
+env = Environment(CC='gcc')
+env.Append(CCFLAGS = ccflags)           # 添加编译选项
+env.Append(LIBS = libs)                 # 添加链接库
+
+# 增加env字典成员，以便其他模块使用
+env['build_dir'] = build_dir            # 
+env['ccflags'] = ccflags                # 
+env['srcs'] = []                        # 保存源文件
+
+# 导出env
+Export('env')
+
+
+# 添加src/SConscript
+SConscript(["src/SConscript"], variant_dir=os.path.join(build_dir), src_dir=os.path.join(cwd, 'src'), duplicate=0)
+# SConscript("src/SConscript", variant_dir=os.path.join(build_dir, "app"), duplicate=0)
+
+# 生成可执行文件
+env.Program(target=os.path.join(build_dir, 'target'), source=env['srcs'])
+# env.Program(target=os.path.join(build_dir, 'target'), source=['src/test01.c'])
+
+
+"""
+SConscript函数
+功能：添加SConscript并执行
+参数：
+- src_dir
+"""

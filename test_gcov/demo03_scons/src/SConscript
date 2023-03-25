@@ -1,0 +1,13 @@
+import os
+Import('env')
+
+print(">>> src")
+
+cwd = os.getcwd()
+src = Glob("*.c")
+inc = [cwd]
+
+SConscript("math/SConscript")
+
+env['srcs'].append(src)
+# env.Program(source=src, CPPPATH=inc)
