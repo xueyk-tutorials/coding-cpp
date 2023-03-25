@@ -1,0 +1,31 @@
+import os
+
+cwd = os.getcwd()
+build_dir = os.path.join(cwd, 'build')
+
+
+libs = []
+ccflags = ['-g', '-O0', '-Wall']
+
+# 
+env = Environment(CC='gcc')
+env.Append(CCFLAGS = ccflags)           # 添加编译选项
+env.Append(LIBS = libs)                 # 添加链接库
+
+# 增加env字典成员，以便其他模块使用
+env['build_dir'] = build_dir            # 
+env['ccflags'] = ccflags                # 
+env['srcs'] = []                        # 保存源文件列表，方便各子模块添加更多的源文件
+
+# 导出env
+Export('env')
+
+
+# 添加src/SConscript
+SConscript(["src/SConscript"], variant_dir=os.path.join(build_dir), src_dir=os.path.join(cwd, 'src'), duplicate=0)
+# SConscript("src/SConscript", variant_dir=os.path.join(build_dir, "app"), duplicate=0)
+
+# 生成可执行文件
+env.Program(target=os.path.join(build_dir, 'template'), source=env['srcs'])
+# env.Program(target=os.path.join(build_dir, 'template'), source=['src/test01.c'])
+

@@ -1,0 +1,12 @@
+import os
+Import('env')
+
+print(">>> src")
+
+cwd = os.getcwd()
+src = Glob("*.c")               # 添加所有.c源文件
+inc = [cwd]                     # 添加当前目录为头文件索引目录
+
+SConscript("math/SConscript")   # 添加子目录下的SConscript
+
+env['srcs'].append(src)         # 将源文件添加至编译列表

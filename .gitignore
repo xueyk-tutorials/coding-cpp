@@ -3,6 +3,8 @@ build/
 install/
 
 *.o
+# scons
+*.dblite
 # gcc coverage
 html*/
 *.info
