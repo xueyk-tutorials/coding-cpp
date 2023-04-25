@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-
+project(TestClass)
 ###
 # 指定为C++11 版本
 set(CMAKE_CXX_STANDARD 11)

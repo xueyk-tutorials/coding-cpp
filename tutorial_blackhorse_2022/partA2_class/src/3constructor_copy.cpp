@@ -20,8 +20,14 @@ public:
         age = p.age;
         cout << "拷贝构造" << endl;
     }
+    // 析构
+    ~Person(){
+        cout << "Person 析构" << endl;
+    }
+
     int age = 0;
     string name = "";
+    
 };
 
 // 
@@ -84,8 +90,15 @@ void test02()
     Person p3 = return_person2();
     cout << "p3的地址为：" << (int *)&p3 << endl;
     cout << "--------------------" << endl;
+    cout << ">>>4" << endl;
     Person p4(return_person2());
     cout << "p4的地址为：" << (int *)&p4 << endl;
+
+    {
+    Person p5 = Person();        
+    }
+
+    cout << "--------------- end ---------------" << endl;
 }
 
 void test03()
@@ -100,7 +113,7 @@ void test03()
 }
 int main()
 {   
-    // test01();
+    test01();
     test02();
     test03();
 }
