@@ -70,6 +70,10 @@ void test02(){
     delete d;
 
     cout << ">>> " << endl;
+    Base *b1 = new Base();
+    delete b1;
+
+    cout << ">>> " << endl;
     Base *b = new Derived();
     /**
      * 如果父类析构函数不是虚析构，则delete指针时子类析构函数不会调用
@@ -180,6 +184,7 @@ void test04(){
 }
 int main(int argc, char *argv[]){
     // test01();
+    test02();
     test04();
     return 0;
 }
